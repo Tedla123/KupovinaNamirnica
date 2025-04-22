@@ -1,14 +1,20 @@
 const categories = {
-  "Voće": ["Jabuka", "Kruška", "Grožđe", "Šljiva", "Naranča", "Grejp", "Limun", "Kiwi", "Banana", "Ananas", "Orah", "Lješnjak"],
-  "Povrće": ["Rajčica", "Paprika babura", "Paprika rog", "Krumpir", "Crveni luk", "Češnjak", "Mrkva", "Celer", "Grah", "Poriluk", "Cikla", "Krastavac"],
-  "Mliječni proizvodi": ["Mlijeko svježe", "Mlijeko trajno", "Tekući jogurt", "Voćni jogurt", "Kislo vrhnje", "ABC sir", "Mozzarela", "Sirni namaz", "Kružni sir", "Jaja", "Maslac", "Margarin", "Vrhnje za kuhanje", "mascarpone", "monte", "kinder čokolada", "Puding"],
-  "Prilozi i začini": ["Šećer", "Sol", "Papar", "Vegeta", "Kocke za juhu", "vanil šećer", "prašak za pecivo", "Crvena paprika", "Ocat jabučni", "Ocat alkoholni", "Ulje", "Brašno meko", "Brašno oštro", "Griz", "Palenta", "Mrvice", "Riža", "Kava", "Mlinci", "Tjestenina šarafi", "Spageti", "Ribanac"],
-  "Ostalo": ["Kore za študlu", "čaj šumsko voće", "čaj kamilica", "Čaj Twinings", "Pašteta", "hrenovke", "ZG VRECICE", "Poli salama", "Kuglice za juhu", "Pahuljice", "Čokolino"],
-  "Smrznuto": ["Štrukle", "Riblji štapići", "Oslić smrznuti", "Špinat", "Kedle", "Svježe pile", "Mljeveno meso"],
-  "Kiselo i konzerva": ["Ajvar", "Cikla", "Pelati", "Masline"],
-  "Piće": ["Cedevita", "Coca Cola", "Pivo"],
-  "Kozmetika": ["WC papir", "Tablete za mašinu", "Omekšivač Lenor", "Detergent za veš Persil", "Papirnati ručnici"]
+  "Voće": ["Ananas", "Banana", "Borovnica", "Breskva", "Datulje", "Dinja", "Grejp", "Grožđe", "Jabuka", "Jagoda", "Kivi", "Kruška", "Kupina", "Limun", "Lubenica", "Malina", "Mandarina", "Marelica", "Nar", "Naranča", "Nektarina", "Smokva", "Suhe marelice", "Suhe smokve", "Suhe šljive", "Šljiva"],
+  "Povrće": ["Batat", "Blitva", "Brokula", "Celer", "Cikla", "Crveni luk", "Cvjetača", "Češnjak", "Grah", "Hren", "Kelj", "Kiseli kupus", "Krastavac", "Krumpir", "Kukuruz šećerac", "Kupus", "Matovilac", "Mladi luk", "Mrkva", "Paprika babura", "Paprika rog", "Patlidžan", "Poriluk", "Prokulice", "Rajčica", "Rikola", "Rotkvica", "Špinat", "Tikva", "Tikvica", "Zelena salata"],
+  "Mliječni proizvodi i namazi": ["ABC sir", "Edamer", "Gouda", "Jaja", "Kefir", "Kiselo vrhnje", "Lino Lada", "Margarin", "Mascarpone", "Maslac", "Mlijeko svježe", "Mlijeko trajno", "Mozzarella", "Nutella", "Parmezan", "Pašteta", "Sirni namaz", "Tekući jogurt", "Voćni jogurt", "Vrhnje za kuhanje", "Vrhnje za šlag", "Zdenka sir"],
+  "Slatko": ["Kinder čokolada", "Kinder jaje", "Kinder Pingui", "Monte", "Puding", "Čokolino"],
+  "Začini i suhi dodaci": ["Bosiljak", "Cimet", "Crvena paprika ljuta", "Crvena paprika slatka", "Klinčić", "Kakao u prahu", "Kumin", "Kurkuma", "Lovorov list", "Majčina dušica", "Muškatni oraščić", "Origano", "Papar", "Peršin suhi", "Ružmarin", "Sol", "Vanilin šećer", "Vegeta"],
+  "Suhi prilozi i žitarice": ["Brašno meko", "Brašno oštro", "Griz", "Heljda", "Krušne mrvice", "Kuglice za juhu", "Mlinci", "Pahuljice", "Palenta", "Penne", "Proso", "Riža", "Soda bikarbona", "Šarafi", "Šećer", "Špageti", "Prašak za pecivo"],
+  "Ulja i octevi": ["Ocat alkoholni", "Ocat balsamico", "Ocat jabučni", "Ulje bučino", "Ulje maslinovo", "Ulje suncokretovo", "Vinski ocat"],
+  "Konzervirani i gotovi proizvodi": ["Ajvar blagi", "Ajvar ljuti", "Masline", "Masline zelene", "Parmezan ribani", "Pelati", "Ribanac (ribani sir)"],
+  "Mesni proizvodi": ["Mljeveno meso", "Pile", "Poli salama", "Zimska salama"],
+  "Kolači": ["Kore za štrudlu"],
+  "Smrznuto": ["Kedle", "Oslić", "Riblji štapići", "Špinat", "Štrukle"],
+  "Piće": ["Cedevita", "Coca Cola", "Kava", "Pivo", "Čaj kamilica", "Čaj šumsko voće", "Čaj Twinings"],
+  "Osobna higijena i kozmetika": ["Četkica za zube", "Dezodorans", "Gel za tuširanje", "Maramice vlažne", "Pasta za zube", "Pjena za brijanje", "Regenerator", "Sapun kruti", "Šampon", "Tekući sapun", "WC papir", "Žileti"],
+  "Kućna higijena i čišćenje": ["Detergent za crno rublje", "Detergent za šareno rublje", "Detergent za veš Persil", "Gumene rukavice", "Omekšivač", "Sjajilo za mašinu", "Spužve za pranje", "Sredstvo za čišćenje stakla", "Sredstvo za drvenih površina", "Tablete za mašinu", "Papirnati ručnici"]
 };
+
 
 const selectedItems = {};
 let savedLists = [];
