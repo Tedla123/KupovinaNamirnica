@@ -4,84 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Popis za kupovinu</title>
-  <style>
-    body {
-      font-family: "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f7f6;
-    }
-
-    .tabs {
-      display: flex;
-      background-color: #0078d4;
-      padding: 12px;
-    }
-
-    .tab {
-      padding: 10px 20px;
-      margin-right: 10px;
-      color: white;
-      background-color: #009cdd;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background-color: #006bb3;
-    }
-
-    .content {
-      display: none;
-      padding: 20px;
-    }
-
-    .content.active {
-      display: block;
-    }
-
-    .category {
-      margin-bottom: 20px;
-    }
-
-    .category h3 {
-      cursor: pointer;
-      background: #eef3f7;
-      padding: 10px;
-      border-radius: 4px;
-      margin: 0;
-    }
-
-    .items {
-      display: none;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 8px;
-      margin-top: 10px;
-    }
-
-    .category.active .items {
-      display: grid;
-    }
-
-    button {
-      padding: 10px 12px;
-      background: #0078d4;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .shopping-item {
-      background-color: #d92d20;
-    }
-
-    .shopping-item:hover {
-      background-color: #b81e10;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
+  <div id="popupMessage" class="popup-message" style="display: none;"></div>
 
   <div class="tabs">
     <div class="tab active" data-target="fruit">Odabir namirnica</div>
@@ -90,138 +17,26 @@
   </div>
 
   <div id="fruit" class="content active">
-    <h2>Odaberi namirnice</h2>
     <div id="categoriesContainer"></div>
   </div>
 
   <div id="shopping-list" class="content">
-    <div id="selectedItemsList" class="items" style="margin-bottom: 20px;"></div>
-    <h2>Popis za kupovinu</h2>
-    <button onclick="saveShoppingList()">Spremi trenutni popis</button>
-    <button onclick="exportShoppingList()">Izvezi popis (.json)</button>
+   
+    <button onclick="saveShoppingList()" title="Spremi trenutni popis"><i class="fas fa-file-alt"></i></button>
+    <button onclick="exportShoppingList()" title="Izvezi popis"><i class="fas fa-arrow-down"></i></button>
+    <button onclick="clearShoppingList()" title="Obriši popis"><i class="fas fa-trash"></i></button>
+    <label for="importFile" class="custom-file-label" title="Uvezi popis"><i class="fas fa-arrow-up"></i></label>
     <input type="file" id="importFile" accept="application/json" onchange="importShoppingList(event)">
+     <div id="selectedCategoriesView"></div>
+    <div id="savedShoppingLists" style="margin-top: 20px;"></div>
   </div>
 
   <div id="shopping" class="content">
-    <h2>Kupovina</h2>
     <button onclick="startShopping()">Obavi kupnju</button>
+    <div id="shoppingPopup" class="popup" style="display: none;"></div>
     <div id="shoppingItems"></div>
   </div>
 
-  <script>
-    const categories = {
-  "Voće": ["Jabuka", "Kruška", "Grožđe", "Šljiva", "Naranča", "Grejp", "Limun", "Kiwi", "Banana", "Ananas", "Orah", "Lješnjak"],
-  "Povrće": ["Rajčica", "Paprika babura", "Paprika rog", "Krumpir", "Crveni luk", "Češnjak", "Mrkva", "Celer", "Grah", "Poriluk", "Cikla", "Krastavac"],
-  "Mliječni proizvodi": ["Mlijeko svježe", "Mlijeko trajno", "Tekući jogurt", "Voćni jogurt", "Kislo vrhnje", "ABC sir", "Mozzarela", "Sirni namaz", "Kružni sir", "Jaja", "Maslac", "Margarin", "Vrhnje za kuhanje", "mascarpone", "monte", "kinder čokolada", "Puding"],
-  "Prilozi i začini": ["Šećer", "Sol", "Papar", "Vegeta", "Kocke za juhu", "vanil šećer", "prašak za pecivo", "Crvena paprika", "Ocat jabučni", "Ocat alkoholni", "Ulje", "Brašno meko", "Brašno oštro", "Griz", "Palenta", "Mrvice", "Riža", "Kava", "Mlinci", "Tjestenina šarafi", "Spageti", "Ribanac"],
-  "Ostalo": ["Kore za študlu", "čaj šumsko voće", "čaj kamilica", "Čaj Twinings", "Pašteta", "hrenovke", "ZG VRECICE", "Poli salama", "Kuglice za juhu", "Pahuljice", "Čokolino"],
-  "Smrznuto": ["Štrukle", "Riblji štapići", "Oslić smrznuti", "Špinat", "Kedle", "Svježe pile", "Mljeveno meso"],
-  "Kiselo i konzerva": ["Ajvar", "Cikla", "Pelati", "Masline"],
-  "Piće": ["Cedevita", "Coca Cola", "Pivo"],
-  "Kozmetika": ["WC papir", "Tablete za mašinu", "Omekšivač Lenor", "Detergent za veš Persil", "Papirnati ručnici"]
-};
-    const selectedItems = {};
-
-    function createCategorySection(container, itemsByCategory, onlySelected = false) {
-  container.innerHTML = "";
-  for (let [category, items] of Object.entries(itemsByCategory)) {
-    const catItems = onlySelected ? items.filter(item => selectedItems[item]) : items;
-    if (onlySelected && catItems.length === 0) continue;
-
-    const catDiv = document.createElement("div");
-    catDiv.className = "category";
-
-    const catHeader = document.createElement("h3");
-    catHeader.textContent = category;
-    catHeader.onclick = () => catDiv.classList.toggle("active");
-    catDiv.appendChild(catHeader);
-
-    const itemDiv = document.createElement("div");
-    itemDiv.className = "items";
-
-    catItems.forEach(item => {
-      const btn = document.createElement("button");
-      btn.textContent = onlySelected ? `${item} - ${selectedItems[item]}` : item;
-      btn.className = onlySelected ? "shopping-item" : "";
-      btn.onclick = () => {
-        if (onlySelected) {
-          btn.remove();
-        } else {
-          selectedItems[item] = (selectedItems[item] || 0) + 1;
-        }
-      };
-      itemDiv.appendChild(btn);
-    });
-
-    catDiv.appendChild(itemDiv);
-    container.appendChild(catDiv);
-  }
-}
-
-    function saveShoppingList() {
-      renderSelectedItems();
-      localStorage.setItem("selectedShoppingList", JSON.stringify(selectedItems));
-      alert("Popis spremljen!");
-    }
-
-    function exportShoppingList() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(selectedItems));
-      const dlAnchor = document.createElement("a");
-      dlAnchor.setAttribute("href", dataStr);
-      const date = new Date().toLocaleDateString("hr-HR").replaceAll("/", "-");
-      dlAnchor.setAttribute("download", `Popis-${date}.json`);
-      dlAnchor.click();
-    }
-
-    function importShoppingList(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          const data = JSON.parse(e.target.result);
-          Object.assign(selectedItems, data);
-          alert("Popis je uvezen!");
-        } catch {
-          alert("Neispravna datoteka!");
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    function startShopping() {
-      const container = document.getElementById("shoppingItems");
-      container.innerHTML = "";
-      const selectedList = JSON.parse(localStorage.getItem("selectedShoppingList")) || {};
-      Object.assign(selectedItems, selectedList);
-      createCategorySection(container, categories);
-      // expand all categories by default
-      document.querySelectorAll('#shopping .category').forEach(c => c.classList.add('active'));
-    }
-
-    function renderSelectedItems() {
-      const container = document.getElementById("selectedItemsList");
-      container.innerHTML = "";
-      for (let item in selectedItems) {
-        const btn = document.createElement("button");
-        btn.textContent = `${item} - ${selectedItems[item]}`;
-        btn.className = "shopping-item";
-        container.appendChild(btn);
-      }
-    }
-
-    window.onload = function () {
-      document.querySelectorAll(".tab").forEach(tab => {
-        tab.addEventListener("click", function () {
-          document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
-          document.querySelectorAll(".content").forEach(c => c.classList.remove("active"));
-          this.classList.add("active");
-          document.getElementById(this.getAttribute("data-target")).classList.add("active");
-        });
-      });
-
-      createCategorySection(document.getElementById("categoriesContainer"), categories);
-    };
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
