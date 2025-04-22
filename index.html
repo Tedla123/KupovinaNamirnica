@@ -40,6 +40,26 @@
   <div id="settings" class="content">
     <h2>Uredi kategorije i namirnice</h2>
     <div id="settingsContainer"></div>
+    <div id="settingsContainer">
+  <label class="settings-toggle-label">
+    Swipe između tabova
+    <label class="switch">
+      <input type="checkbox" id="swipeToggle">
+      <span class="slider"></span>
+    </label>
+  </label>
+
+  <label class="settings-toggle-label">
+    Prikaži vertikalni scroll bar
+    <input type="checkbox" id="verticalScrollToggle">
+  </label>
+
+  <label class="settings-toggle-label">
+    Prikaži horizontalni scroll bar
+    <input type="checkbox" id="horizontalScrollToggle">
+  </label>
+</div>
+
     <button onclick="saveSettings()">Spremi postavke</button>
   </div>
 

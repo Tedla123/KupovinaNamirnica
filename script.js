@@ -470,6 +470,46 @@ window.onload = function () {
   )
 }
 
+function applyScrollSettings() {
+  const body = document.body;
+  body.style.overflowY = document.getElementById("verticalScrollToggle").checked ? 'scroll' : 'hidden';
+  body.style.overflowX = document.getElementById("horizontalScrollToggle").checked ? 'scroll' : 'hidden';
+}
+
+function applySwipeSetting() {
+  const isEnabled = document.getElementById("swipeToggle").checked;
+  localStorage.setItem("swipeEnabled", isEnabled);
+}
+
+function loadSettings() {
+  const swipeEnabled = localStorage.getItem("swipeEnabled") === "true";
+  const verticalScroll = localStorage.getItem("scrollY") !== "false";
+  const horizontalScroll = localStorage.getItem("scrollX") !== "false";
+
+  document.getElementById("swipeToggle").checked = swipeEnabled;
+  document.getElementById("verticalScrollToggle").checked = verticalScroll;
+  document.getElementById("horizontalScrollToggle").checked = horizontalScroll;
+
+  applyScrollSettings();
+}
+
+document.getElementById("swipeToggle").addEventListener("change", function () {
+  localStorage.setItem("swipeEnabled", this.checked);
+});
+
+document.getElementById("verticalScrollToggle").addEventListener("change", function () {
+  localStorage.setItem("scrollY", this.checked);
+  applyScrollSettings();
+});
+
+document.getElementById("horizontalScrollToggle").addEventListener("change", function () {
+  localStorage.setItem("scrollX", this.checked);
+  applyScrollSettings();
+});
+
+loadSettings();
+
+
 let touchStartX = 0
 let touchEndX = 0
 
