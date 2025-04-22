@@ -72,10 +72,7 @@ function renderSelectedItems() {
   const container = document.getElementById("selectedCategoriesView");
   if (!container) return;
   createCategorySection(container, categories, true, false);
-
-  container.querySelectorAll(".category").forEach(cat => {
-    cat.classList.add("active");
-  });
+  container.querySelectorAll(".category").forEach(cat => cat.classList.add("active"));
 }
 
 function saveShoppingList() {
@@ -101,12 +98,11 @@ function saveShoppingList() {
   const wrapper = document.createElement("div");
   const titleEl = document.createElement("h4");
   titleEl.textContent = title;
-
- titleEl.onclick = () => {
-  listDiv.style.display = listDiv.style.display === "none" ? "block" : "none";
-};
-titleEl.style.cursor = "pointer";
-titleEl.style.color = "#0078d4";
+  titleEl.onclick = () => {
+    listDiv.style.display = listDiv.style.display === "none" ? "block" : "none";
+  };
+  titleEl.style.cursor = "pointer";
+  titleEl.style.color = "#0078d4";
 
   const listDiv = document.createElement("div");
   listDiv.style.display = "none";
@@ -119,12 +115,13 @@ titleEl.style.color = "#0078d4";
   }
 
   wrapper.appendChild(titleEl);
-
   wrapper.appendChild(listDiv);
   wrapper.style.marginBottom = "15px";
   savedContainer.appendChild(wrapper);
 
-showPopupMessage("Popis spremljen!");
+  showPopupMessage("Popis spremljen!");
+  for (let key in selectedItems) delete selectedItems[key];
+  renderSelectedItems();
 }
 
 function exportShoppingList() {
@@ -140,7 +137,7 @@ function importShoppingList(event) {
   const file = event.target.files[0];
   if (!file) return;
   const reader = new FileReader();
-  reader.onload = function(e) {
+  reader.onload = function (e) {
     try {
       const data = JSON.parse(e.target.result);
       Object.assign(selectedItems, data);
@@ -181,7 +178,7 @@ function startShopping() {
   title.textContent = "Odaberi popis za kupovinu:";
   popup.appendChild(title);
 
-  savedLists.forEach((list, index) => {
+  savedLists.forEach((list) => {
     const btn = document.createElement("button");
     btn.textContent = list.title;
     btn.onclick = () => {
@@ -193,7 +190,6 @@ function startShopping() {
     popup.appendChild(btn);
   });
 }
-
 
 function renderShoppingItems() {
   const container = document.getElementById("shoppingItems");
