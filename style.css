@@ -85,6 +85,10 @@ input[type="file"] {
 .shopping-item:hover {
   background-color: #b81e10;
 }
+.selected-item {
+  background-color: #a8e6a3 !important;
+  color: #1a471a;
+}
 @media (max-width: 600px) {
   .items {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -134,4 +138,19 @@ button i,
 }
 .popup-message.show {
   opacity: 1;
+}
+
+/* Dodano ponašanje: otvori samo jednu kategoriju */
+.category h3 {
+  cursor: pointer;
+}
+
+.category h3::after {
+  content: "\25BC";
+  float: right;
+  transition: transform 0.3s;
+}
+
+.category.active h3::after {
+  transform: rotate(180deg);
 }

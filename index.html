@@ -21,12 +21,13 @@
   </div>
 
   <div id="shopping-list" class="content">
+   
     <button onclick="saveShoppingList()" title="Spremi trenutni popis"><i class="fas fa-file-alt"></i></button>
     <button onclick="exportShoppingList()" title="Izvezi popis"><i class="fas fa-arrow-down"></i></button>
     <button onclick="clearShoppingList()" title="Obriši popis"><i class="fas fa-trash"></i></button>
     <label for="importFile" class="custom-file-label" title="Uvezi popis"><i class="fas fa-arrow-up"></i></label>
     <input type="file" id="importFile" accept="application/json" onchange="importShoppingList(event)">
-    <div id="selectedCategoriesView"></div>
+     <div id="selectedCategoriesView"></div>
     <div id="savedShoppingLists" style="margin-top: 20px;"></div>
   </div>
 

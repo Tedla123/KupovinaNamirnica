@@ -32,7 +32,10 @@ function createCategorySection(container, itemsByCategory, onlySelected = false,
 
     const catHeader = document.createElement("h3");
     catHeader.textContent = category;
-    catHeader.onclick = () => catDiv.classList.toggle("active");
+    catHeader.onclick = () => {
+      document.querySelectorAll(".category").forEach(c => c !== catDiv && c.classList.remove("active"));
+      catDiv.classList.toggle("active");
+    };
     catDiv.appendChild(catHeader);
 
     const itemDiv = document.createElement("div");
@@ -41,21 +44,30 @@ function createCategorySection(container, itemsByCategory, onlySelected = false,
     catItems.forEach(item => {
       const btn = document.createElement("button");
       btn.textContent = onlySelected ? `${item} - ${selectedItems[item]}` : item;
-      btn.className = onlySelected ? "shopping-item" : "";
+      if (selectedItems[item]) {
+        btn.classList.add("selected-item");
+      }
+      if (onlySelected) {
+        btn.classList.add("shopping-item");
+      }
+
       btn.onclick = () => {
         if (onlySelected) {
           if (selectedItems[item] > 1) {
             selectedItems[item]--;
           } else {
             delete selectedItems[item];
+            btn.classList.remove("selected-item");
           }
           renderSelectedItems();
           createCategorySection(container, itemsByCategory, true, true);
         } else {
           selectedItems[item] = (selectedItems[item] || 0) + 1;
+          btn.classList.add("selected-item");
           renderSelectedItems();
         }
       };
+
       itemDiv.appendChild(btn);
     });
 
@@ -68,11 +80,24 @@ function createCategorySection(container, itemsByCategory, onlySelected = false,
   }
 }
 
+
 function renderSelectedItems() {
   const container = document.getElementById("selectedCategoriesView");
   if (!container) return;
+
   createCategorySection(container, categories, true, false);
-  container.querySelectorAll(".category").forEach(cat => cat.classList.add("active"));
+
+  container.querySelectorAll(".category").forEach(cat => {
+    cat.classList.add("active");
+  });
+
+  // Ukloni zelenu klasu sa svih koji više nisu odabrani
+  document.querySelectorAll("#categoriesContainer button").forEach(btn => {
+    const name = btn.textContent.trim();
+    if (!selectedItems[name]) {
+      btn.classList.remove("selected-item");
+    }
+  });
 }
 
 function saveShoppingList() {
