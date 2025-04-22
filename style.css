@@ -72,10 +72,11 @@ button,
   display: inline-block;
   margin: 5px 5px 5px 0;
 }
-button:hover:not(.shopping-item),
+button:hover:not(.shopping-item):not(.selected-item),
 .custom-file-label:hover {
   background-color: #005ea8;
 }
+
 input[type="file"] {
   display: none;
 }
@@ -87,8 +88,11 @@ input[type="file"] {
 }
 .selected-item {
   background-color: #a8e6a3 !important;
-  color: #1a471a;
+  color: #1a471a !important;
+  border: 2px solid #4caf50;
+  font-weight: 600;
 }
+
 @media (max-width: 600px) {
   .items {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
