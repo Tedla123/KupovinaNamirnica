@@ -14,6 +14,7 @@
     <div class="tab active" data-target="fruit">Odabir namirnica</div>
     <div class="tab" data-target="shopping-list">Popis za kupovinu</div>
     <div class="tab" data-target="shopping">Kupovina</div>
+    <div class="tab" data-target="settings">Postavke</div>
   </div>
 
   <div id="fruit" class="content active">
@@ -21,13 +22,12 @@
   </div>
 
   <div id="shopping-list" class="content">
-   
     <button onclick="saveShoppingList()" title="Spremi trenutni popis"><i class="fas fa-file-alt"></i></button>
     <button onclick="exportShoppingList()" title="Izvezi popis"><i class="fas fa-arrow-down"></i></button>
     <button onclick="clearShoppingList()" title="Obriši popis"><i class="fas fa-trash"></i></button>
     <label for="importFile" class="custom-file-label" title="Uvezi popis"><i class="fas fa-arrow-up"></i></label>
     <input type="file" id="importFile" accept="application/json" onchange="importShoppingList(event)">
-     <div id="selectedCategoriesView"></div>
+    <div id="selectedCategoriesView"></div>
     <div id="savedShoppingLists" style="margin-top: 20px;"></div>
   </div>
 
@@ -35,6 +35,12 @@
     <button onclick="startShopping()">Obavi kupnju</button>
     <div id="shoppingPopup" class="popup" style="display: none;"></div>
     <div id="shoppingItems"></div>
+  </div>
+
+  <div id="settings" class="content">
+    <h2>Uredi kategorije i namirnice</h2>
+    <div id="settingsContainer"></div>
+    <button onclick="saveSettings()">Spremi postavke</button>
   </div>
 
   <script src="script.js"></script>
